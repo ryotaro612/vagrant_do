@@ -16,14 +16,15 @@ Vagrant.configure("2") do |config|
 	#
 	config.vm.hostname = 'droplet'	
 
-	puts config.vm.provider :digital_ocean do |provider, override|
-
+	config.vm.provider :digital_ocean do |provider, override|
 		override.ssh.private_key_path = '~/.ssh/id_rsa'
 		override.vm.box = 'digital_ocean'
     override.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
 		provider.image = 'debian-8-x64'
 		provider.token = ENV['DIGITAL_OCEAN_PERSONAL_ACCESS_TOKEN']
 		provider.region = 'nyc3'
+    provider.size = '1gb'
+		provider.ssh_key_name = 'ssh_key_name'
 	end
 
   # Disable automatic box update checking. If you disable this, then
