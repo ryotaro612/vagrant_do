@@ -1,0 +1,34 @@
+---
+- hosts: all
+  remote_user: vagrant
+  vars:
+    vnc_pass: foobar
+  tasks:
+    - name: install xfce4
+      apt: name=xfce4 update_cache=yes
+      sudo: yes
+    - name: install rsync
+      apt: name=rsync
+      sudo: yes
+    - name: install tightvncserver
+      apt: name=tightvncserver
+      sudo: yes
+    - name: install chromium
+      apt: name=chromium
+      sudo: yes
+    - name: directory
+      file: path=~/.vnc state=directory mode=0700
+    - name: shell
+      shell: echo {{vnc_pass}} |vncpasswd -f > ~/.vnc/passwd
+    - name: user
+      file: path=~/.vnc/passwd mode=0600
+  #    - name: z
+  #    shell: vncserver :1
+  #  - name: down
+  #    shell: vncserver -kill :1
+  #  - name: a
+  #    shell: echo exec startxfce4  >> ~/.vnc/xstartup 
+  #  - name: a
+  #    shell: pwd
+  #  - name: up
+  #    shell: vncserver -geometry 1440x900 -alwaysshared -dpi 96 -localhost :1
