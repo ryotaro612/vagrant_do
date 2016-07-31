@@ -1,21 +1,22 @@
 ---
 - hosts: all
-  remote_user: vagrant
+  remote_user: digitalocean
   vars:
     vnc_pass: foobar
+    start_vnc_server_script: startvnc.sh
   tasks:
     - name: install xfce4
       apt: name=xfce4 update_cache=yes
-      sudo: yes
+      become: yes
     - name: install rsync
       apt: name=rsync
-      sudo: yes
+      become: yes
     - name: install tightvncserver
       apt: name=tightvncserver
-      sudo: yes
+      become: yes
     - name: install chromium
       apt: name=chromium
-      sudo: yes
+      become: yes
     - name: directory
       file: path=~/.vnc state=directory mode=0700
     - name: shell
@@ -30,5 +31,5 @@
   #    shell: echo exec startxfce4  >> ~/.vnc/xstartup 
   #  - name: a
   #    shell: pwd
-  #  - name: up
-  #    shell: vncserver -geometry 1440x900 -alwaysshared -dpi 96 -localhost :1
+    - name: put startup vncserver script
+      copy: src={{start_vnc_server_script}} dest=~/ mode="u+x"
