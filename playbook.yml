@@ -17,19 +17,11 @@
     - name: install chromium
       apt: name=chromium
       become: yes
-    - name: directory
+    - name: create .vnc
       file: path=~/.vnc state=directory mode=0700
-    - name: shell
+    - name: set the vnc password
       shell: echo {{vnc_pass}} |vncpasswd -f > ~/.vnc/passwd
-    - name: user
+    - name: set unreadable
       file: path=~/.vnc/passwd mode=0600
-  #    - name: z
-  #    shell: vncserver :1
-  #  - name: down
-  #    shell: vncserver -kill :1
-  #  - name: a
-  #    shell: echo exec startxfce4  >> ~/.vnc/xstartup 
-  #  - name: a
-  #    shell: pwd
-    - name: put startup vncserver script
+    - name: put a script which starts a vncserver
       copy: src={{start_vnc_server_script}} dest=~/ mode="u+x"
