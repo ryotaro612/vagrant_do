@@ -24,7 +24,13 @@ Vagrant.configure("2") do |config|
 		provider.token = ENV['DIGITAL_OCEAN_PERSONAL_ACCESS_TOKEN']
 		provider.region = 'nyc3'
     provider.size = '1gb'
-		provider.ssh_key_name = 'ssh_key_name'
+		provider.ssh_key_name = 'ssh_keyname'
+		provider.setup = true
+		config.ssh.username = 'digitalocean'
+	end
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbook.yml"
 	end
 
   # Disable automatic box update checking. If you disable this, then
